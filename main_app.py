@@ -18,9 +18,13 @@ while True:
         case "show":
             print("Here's your saved list: ")
             for items in list:
-                print(items)
+                print("{0}: {1}".format(list.index(items)+1, items))
             continue
+
         case "exit":
             break
 
-print("Bye")
+        case _:
+            print("Unknown Action -_-")
+
+print("Bye!")
