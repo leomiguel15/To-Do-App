@@ -1,47 +1,54 @@
+def validate_num(var, notes_length):
+    if 1 <= var <= notes_length:
+        return True
+    else:
+        print(f"Please enter a number between 1 and {notes_length}")
+        return False
+
+def display_notes(notes):
+    print("\nCurrent notes: ")
+    for index, item in enumerate(notes, start=1):
+        print(f"{index}: {item}")
+
 print("Welcome to To-Do app!")
 print("---------------------")
-print("Below is the code format to use the app: \nadd | show | delete | exit")
+print("Below is the code format to use the app: \nadd | show | edit | delete | exit")
 
-list = []
+notes = []
 
 while True:
-
-    user_action = input("Enter command:")
-    user_action = user_action.strip().lower()
+    user_action = input("Enter command: ").strip().lower()
 
     match user_action:
         case "add":
             var = input("\nAdd your entry: ")
             if var == "back":
                 continue
-            list.append(var)
+            notes.append(var)
 
         case "show":
-            print("\nHere's your saved list: ")
-            for items in list:
-                print("{0}: {1}".format(list.index(items)+1, items))
-            continue
+            display_notes(notes)
 
-        case "delete":
-            print("\nCurrent notes: ")
-            for items in list:
-                print("{0}: {1}".format(list.index(items)+1, items))
-            
-            #ensure user input < number of notes
+        case "edit":
+            display_notes(notes)
             try:
-                var = int(input("Which note to be deleted (Select by entering the number):"))
-                if 1 <= var <= len(list):
-                    del list[var - 1]
-                    break
-                else:
-                    print(f"Please enter a number between 1 and {len(list)}")
+                var = int(input("Enter the number corresponding to the note to edit: "))
+                if validate_num(var, len(notes)):
+                    replace = input("Enter the new note value: ")
+                    notes[var - 1] = replace
+                    display_notes(notes)
             except ValueError:
                 print("Invalid input. Please enter a valid number.")
 
-            print("\nUpdated notes: ")
-            for items in list:
-                print(f"{list.index(items)+1} : {items}")
-            continue
+        case "delete":
+            display_notes(notes)
+            try:
+                var = int(input("Which note to be deleted (Select by entering the number): "))
+                if validate_num(var, len(notes)):
+                    del notes[var - 1]
+                    display_notes(notes)
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
 
         case "exit":
             break
